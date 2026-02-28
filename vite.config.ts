@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [react(), mode === "development"].filter(Boolean),
-  base: mode === "production" ? "/nesemaskina/" : "/",
+  base: "/nesemaskina/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
