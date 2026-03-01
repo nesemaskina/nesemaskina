@@ -46,7 +46,7 @@ const CounterSection = () => {
               transition={{ delay: i * 0.15 }}
               className="text-center bg-card rounded-xl p-8 shadow-romantic border border-primary/10"
             >
-              <div className="font-serif text-4xl md:text-5xl text-gradient-gold mb-2">
+              <div className="font-serif text-3xl md:text-4xl text-gradient-gold mb-2">
                 {s.value}
               </div>
               <div className="font-body text-lg text-muted-foreground tracking-wide">

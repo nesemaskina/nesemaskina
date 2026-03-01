@@ -85,12 +85,60 @@ const circleImages = [
 const TimelineSection = () => {
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<string | null>(null);
+  const [currentIndex, setCurrentIndex] = React.useState<number>(0);
+
+  // flatten milestone and circle image filenames into one list for navigation
+  const allImages: string[] = React.useMemo(() => {
+    const list: string[] = [];
+    milestones.forEach(m => list.push(...m.images));
+    circleImages[0].images.forEach(i => list.push(i));
+    return list;
+  }, []);
 
   function openImage(fileName: string) {
+    console.log("openImage called", fileName);
+    const idx = allImages.indexOf(fileName);
+    setCurrentIndex(idx === -1 ? 0 : idx);
     setSelected(fileName);
     setOpen(true);
   }
 
+  // lock body scroll while modal open and compensate for scrollbar width to avoid layout shift
+  React.useEffect(() => {
+    if (open) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const original = document.body.style.overflow;
+      const originalPadding = document.body.style.paddingRight;
+      
+      document.body.style.overflow = "hidden";
+      if (scrollbarWidth) {
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+      }
+      
+      return () => {
+        document.body.style.overflow = original;
+        document.body.style.paddingRight = originalPadding;
+      };
+    }
+  }, [open]);
+
+  function showNext() {
+    setCurrentIndex(i => {
+      const next = (i + 1) % allImages.length;
+      setSelected(allImages[next]);
+      return next;
+    });
+  }
+
+  function showPrev() {
+    setCurrentIndex(i => {
+      const prev = (i - 1 + allImages.length) % allImages.length;
+      setSelected(allImages[prev]);
+      return prev;
+    });
+  }
+
+  console.log("TimelineSection render", { open, selected, currentIndex });
   return (
   <section className="py-24 px-6 bg-section-rose">
     <div className="max-w-4xl mx-auto">
@@ -163,11 +211,28 @@ const TimelineSection = () => {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-3xl w-full">
+          <DialogTitle className="sr-only">Image preview</DialogTitle>
           <DialogDescription>
             {selected && (
               <img src={resolveSrcPublic(selected)} alt="selected" className="w-full h-auto object-contain" />
             )}
           </DialogDescription>
+
+          {/* navigation arrows */}
+          <button
+            onClick={showPrev}
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/30 text-white rounded-full p-2 focus:outline-none"
+            aria-label="Previous image"
+          >
+            ❮
+          </button>
+          <button
+            onClick={showNext}
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/30 text-white rounded-full p-2 focus:outline-none"
+            aria-label="Next image"
+          >
+            ❯
+          </button>
         </DialogContent>
       </Dialog>
       {/* Circular collage formed by small images */}
