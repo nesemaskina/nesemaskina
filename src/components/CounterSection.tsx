@@ -34,7 +34,7 @@ const CounterSection = () => {
           viewport={{ once: true }}
           className="font-serif text-3xl md:text-4xl text-center mb-12 text-foreground"
         >
-          Aşkımız Sayılarla
+          Açkm Çok Olmuşuz =D
         </motion.h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {stats.map((s, i) => (

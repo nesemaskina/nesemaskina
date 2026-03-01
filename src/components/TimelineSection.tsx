@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import * as React from "react";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 // Resolve public images using Vite's BASE_URL so production uses the correct base path
 function resolveSrcPublic(fileName: string) {
@@ -80,7 +82,16 @@ const circleImages = [
       "9f.jpeg",
     ] }];
 
-const TimelineSection = () => (
+const TimelineSection = () => {
+  const [open, setOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState<string | null>(null);
+
+  function openImage(fileName: string) {
+    setSelected(fileName);
+    setOpen(true);
+  }
+
+  return (
   <section className="py-24 px-6 bg-section-rose">
     <div className="max-w-4xl mx-auto">
       <motion.h2
@@ -124,12 +135,17 @@ const TimelineSection = () => (
               {m.images && m.images.length > 0 && (
                 <div className={`mt-4 flex gap-2 justify-center md:justify-${i % 2 === 0 ? 'end' : 'start'}`}>
                   {m.images.map((src, idx) => (
-                    <img
+                    <button
                       key={idx}
-                      src={resolveSrcPublic(src)}
-                      alt="milestone"
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
+                      onClick={() => openImage(src)}
+                      className="rounded-full overflow-hidden w-12 h-12 p-0 border-0 bg-transparent"
+                    >
+                      <img
+                        src={resolveSrcPublic(src)}
+                        alt={`milestone-${idx}`}
+                        className="w-12 h-12 rounded-full object-cover"
+                      />
+                    </button>
                   ))}
                 </div>
               )}
@@ -144,6 +160,16 @@ const TimelineSection = () => (
           </motion.div>
         ))}
       </div>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-3xl w-full">
+          <DialogDescription>
+            {selected && (
+              <img src={resolveSrcPublic(selected)} alt="selected" className="w-full h-auto object-contain" />
+            )}
+          </DialogDescription>
+        </DialogContent>
+      </Dialog>
       {/* Circular collage formed by small images */}
       <div className="mt-16 flex justify-center">
         <div
@@ -157,21 +183,18 @@ const TimelineSection = () => (
             const cx = 160 + Math.cos(angle) * radius; // center x
             const cy = 160 + Math.sin(angle) * radius; // center y
             return (
-              <img
+              <button
                 key={idx}
-                src={resolveSrcPublic(src)}
-                alt={`circle-${idx}`}
-                style={{
-                  position: "absolute",
-                  left: cx,
-                  top: cy,
-                  width: 44,
-                  height: 44,
-                  borderRadius: "9999px",
-                  objectFit: "cover",
-                  transform: "translate(-50%, -50%)",
-                }}
-              />
+                onClick={() => openImage(src)}
+                className="absolute p-0 border-0 bg-transparent"
+                style={{ left: cx, top: cy, transform: "translate(-50%, -50%)" }}
+              >
+                <img
+                  src={resolveSrcPublic(src)}
+                  alt={`circle-${idx}`}
+                  style={{ width: 44, height: 44, borderRadius: "9999px", objectFit: "cover" }}
+                />
+              </button>
             );
           })}
           {/* Center heart */}
@@ -191,6 +214,7 @@ const TimelineSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+}
 
 export default TimelineSection;
