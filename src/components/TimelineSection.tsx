@@ -170,11 +170,11 @@ const TimelineSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: i * 0.1 }}
-            className={`relative flex flex-col md:flex-row items-center mb-12 last:mb-0 ${
+            className={`relative flex flex-col md:flex-row items-start md:items-center mb-12 last:mb-0 ${
               i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
             }`}
           >
-            <div className={`flex-1 ${i % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"}`}>
+            <div className={`flex-1 text-left ${i % 2 === 0 ? "md:text-right md:pr-12" : "md:text-left md:pl-12"}`}>
               <span className="font-body text-sm tracking-[0.2em] uppercase text-gold font-semibold">
                 {m.year}
               </span>
