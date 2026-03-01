@@ -1,77 +1,83 @@
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 
+// Resolve public images using Vite's BASE_URL so production uses the correct base path
+function resolveSrcPublic(fileName: string) {
+  const base = import.meta.env.BASE_URL ?? "/";
+  return `${base}images/${fileName}`;
+}
+
 const milestones = [
   { year: "1. Yıl", title: "Başlangıç", description: "İki kalbin birbirini bulduğu ve her şeyin sonsuza dek değiştiği zaman.", images: [
-      "public/images/1a.jpeg",
-      "public/images/1b.jpeg",
-      "public/images/1c.jpeg",
-      "public/images/1d.jpeg",
-      "public/images/1e.jpeg",
-      "public/images/1f.jpeg",
+      "1a.jpeg",
+      "1b.jpeg",
+      "1c.jpeg",
+      "1d.jpeg",
+      "1e.jpeg",
+      "1f.jpeg",
     ] },
   { year: "2. Yıl", title: "Birlikte Büyümek", description: "Birbirimizin tanıyıp öğrenip kendi küçük dünyamızı kurmak.", images: [
-      "public/images/2a.jpeg",
-      "public/images/2b.jpeg",
-      "public/images/2c.jpeg",
-      "public/images/2d.jpeg",
-      "public/images/2e.jpeg",
-      "public/images/2f.jpeg",
+      "2a.jpeg",
+      "2b.jpeg",
+      "2c.jpeg",
+      "2d.jpeg",
+      "2e.jpeg",
+      "2f.jpeg",
     ] },
   { year: "3. Yıl", title: "Maceralar", description: "Hayatı yan yana keşfetmek, bir ömür sürecek anılar biriktirmek.", images: [
-      "public/images/3a.jpeg",
-      "public/images/3b.jpeg",
-      "public/images/3c.jpeg",
-      "public/images/3d.jpeg",
-      "public/images/3e.jpeg",
-      "public/images/3f.jpeg",
+      "3a.jpeg",
+      "3b.jpeg",
+      "3c.jpeg",
+      "3d.jpeg",
+      "3e.jpeg",
+      "3f.jpeg",
     ] },
   { year: "4. Yıl", title: "Daha Derinlere", description: "Güven, kahkaha ve sarsılmaz destek üzerine.", images: [
-      "public/images/4a.jpeg",
-      "public/images/4b.jpeg",
-      "public/images/4c.jpeg",
-      "public/images/4d.jpeg",
-      "public/images/4e.jpeg",
-      "public/images/4f.jpeg",
+      "4a.jpeg",
+      "4b.jpeg",
+      "4c.jpeg",
+      "4d.jpeg",
+      "4e.jpeg",
+      "4f.jpeg",
     ] },
   { year: "5. Yıl", title: "Her Şeye Rağmen", description: "Her fırtınada dimdik durmak, her zorlukta daha çok sevmek.", images: [
-      "public/images/5a.jpeg",
-      "public/images/5b.jpeg",
-      "public/images/5c.jpeg",
-      "public/images/5d.jpeg",
-      "public/images/5e.jpeg",
-      "public/images/5f.jpeg",
+      "5a.jpeg",
+      "5b.jpeg",
+      "5c.jpeg",
+      "5d.jpeg",
+      "5e.jpeg",
+      "5f.jpeg",
     ] },
   { year: "6. Yıl", title: "Hâlâ Çok Seviyorum", description: "Altı yıl sonra, birlikte büyümeye devam ederken, seni daha daçok seviyorum.", images: [
-      "public/images/6a.jpeg",
-      "public/images/6b.jpeg",
-      "public/images/6c.jpeg",
-      "public/images/6d.jpeg",
-      "public/images/6e.jpeg",
-      "public/images/6f.jpeg",
+      "6a.jpeg",
+      "6b.jpeg",
+      "6c.jpeg",
+      "6d.jpeg",
+      "6e.jpeg",
+      "6f.jpeg",
     ] },
 ];
 
 const circleImages = [
       { images: [
-      "public/images/7a.jpeg",
-      "public/images/7b.jpeg",
-      "public/images/7c.jpeg",
-      "public/images/7d.jpeg",
-      "public/images/7e.jpeg",
-      "public/images/7f.jpeg",
-      "public/images/8a.jpeg",
-      "public/images/8b.jpeg",
-      "public/images/8c.jpeg",
-      "public/images/8d.jpeg",
-      "public/images/8e.jpeg",
-      "public/images/8f.jpeg",
-      "public/images/9a.jpeg",
-      "public/images/9b.jpeg",
-      "public/images/9c.jpeg",
-      "public/images/9d.jpeg",
-      "public/images/9e.jpeg",
-      "public/images/9f.jpeg",
+      "7a.jpeg",
+      "7b.jpeg",
+      "7c.jpeg",
+      "7d.jpeg",
+      "7e.jpeg",
+      "7f.jpeg",
+      "8a.jpeg",
+      "8b.jpeg",
+      "8c.jpeg",
+      "8d.jpeg",
+      "8e.jpeg",
+      "8f.jpeg",
+      "9a.jpeg",
+      "9b.jpeg",
+      "9c.jpeg",
+      "9d.jpeg",
+      "9e.jpeg",
+      "9f.jpeg",
     ] }];
 
 const TimelineSection = () => (
@@ -120,7 +126,7 @@ const TimelineSection = () => (
                   {m.images.map((src, idx) => (
                     <img
                       key={idx}
-                      src={src}
+                      src={resolveSrcPublic(src)}
                       alt="milestone"
                       className="w-12 h-12 rounded-full object-cover"
                     />
@@ -153,7 +159,7 @@ const TimelineSection = () => (
             return (
               <img
                 key={idx}
-                src={src}
+                src={resolveSrcPublic(src)}
                 alt={`circle-${idx}`}
                 style={{
                   position: "absolute",
